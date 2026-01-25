@@ -1,0 +1,148 @@
+---
+/**
+ * Hero Section - Phase 5 Update
+ *
+ * The opening section with headline, animated counters, flight map, and scroll indicator.
+ * Features a dark gradient background with animated flight paths.
+ */
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+---
+
+<Section id="hero" background="gradient" align="center" padding="none">
+  {/* Flight Map Canvas - Animated background */}
+  <div class="absolute inset-0 overflow-hidden">
+    <div
+      class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+    >
+    </div>
+    <canvas
+      id="flight-map-canvas"
+      class="absolute inset-0 w-full h-full opacity-60"
+      aria-hidden="true"></canvas>
+    {/* Gradient overlay for readability */}
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-slate-900/40"
+    >
+    </div>
+  </div>
+
+  {/* Content */}
+  <Container size="wide" className="relative z-10 text-center py-20">
+    {/* Main headline */}
+    <h1 class="headline-hero text-white mb-6 animate-fade-up">
+      Predicting Flight Delays<br />
+      <span class="gradient-text">at Scale</span>
+    </h1>
+
+    {/* Subheadline */}
+    <p class="body-large text-slate-300 max-w-2xl mx-auto mb-12 animate-fade-up stagger-1">
+      Machine learning analysis of 31M+ flights to predict departure delays
+      using weather, temporal, and historical patterns
+    </p>
+
+    {/* Key metrics with animated counters */}
+    <div
+      class="flex flex-col sm:flex-row justify-center gap-6 sm:gap-12 mb-16 animate-fade-up stagger-2"
+    >
+      <div class="stat-box">
+        <div class="metric-medium text-sky-400">
+          <span
+            data-counter="31"
+            data-suffix="M+"
+            data-decimals="0"
+            data-duration="2000"
+            aria-label="31 million plus flights analyzed">31M+</span
+          >
+        </div>
+        <div class="metric-label text-slate-400">Flights Analyzed</div>
+      </div>
+      <div class="stat-box">
+        <div class="metric-medium text-amber-400">2015-2019</div>
+        <div class="metric-label text-slate-400">Date Range</div>
+      </div>
+      <div class="stat-box">
+        <div class="metric-medium text-green-400">
+          <span data-counter="0.44" data-prefix="F1: " data-decimals="2" data-duration="2500">
+            F1: 0.44
+          </span>
+        </div>
+        <div class="metric-label text-slate-400">Best Score</div>
+      </div>
+    </div>
+
+    {/* UC Berkeley attribution */}
+    <p class="text-sm text-slate-500 animate-fade-up stagger-3">
+      UC Berkeley MIDS W261 - Machine Learning at Scale
+    </p>
+  </Container>
+
+  {/* Scroll indicator */}
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <div class="flex flex-col items-center text-slate-400">
+      <span class="text-xs uppercase tracking-widest mb-2">Scroll</span>
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .stat-box {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(4px);
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0) translateX(-50%);
+    }
+    50% {
+      transform: translateY(-10px) translateX(-50%);
+    }
+  }
+
+  .animate-bounce {
+    animation: bounce 2s ease-in-out infinite;
+  }
+</style>
+
+<script>
+  import {createFlightMap} from '../interactive/FlightMap';
+  import {initCounters} from '../interactive/Counter';
+  import {initScrollAnimations} from '../../lib/animations';
+
+  // Initialize animations when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize scroll animations
+    initScrollAnimations();
+
+    // Initialize counters
+    initCounters();
+
+    // Initialize flight map
+    const canvas = document.getElementById(
+      'flight-map-canvas',
+    ) as HTMLCanvasElement | null;
+    if (canvas) {
+      const flightMap = createFlightMap(canvas);
+      flightMap.start();
+    }
+  });
+</script>

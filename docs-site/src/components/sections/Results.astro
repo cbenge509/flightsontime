@@ -1,0 +1,724 @@
+---
+/**
+ * Results Section - Phase 5 Update
+ *
+ * Model comparison with interactive slider, metrics, and key insights.
+ * Features animated transitions between model metrics.
+ */
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import {modelResults, features} from '../../lib/data';
+---
+
+<Section id="results" background="gradient-reverse" align="center">
+  <Container size="default" className="text-center">
+    {/* Section header */}
+    <div class="mb-12 animate-fade-up">
+      <h2 class="headline-section text-white mb-4">Results</h2>
+      <p class="body-large text-slate-300 max-w-2xl mx-auto">
+        Comparing model performance on predicting flight delays 2 hours before departure.
+      </p>
+    </div>
+
+    {/* Interactive Model Comparison Slider */}
+    <div id="model-slider-container" class="model-slider-section animate-fade-up mb-12">
+      <h3 class="text-lg font-semibold text-white mb-6">Compare Models</h3>
+
+      <div class="slider-wrapper">
+        {/* Model name display */}
+        <div class="model-name-display">
+          <span data-model-name class="text-2xl font-bold text-white">Random Forest</span>
+        </div>
+
+        {/* Slider input */}
+        <div class="slider-container">
+          <span class="slider-label text-slate-400">LR</span>
+          <input
+            type="range"
+            min="0"
+            max="2"
+            value="1"
+            step="1"
+            class="model-slider"
+            data-model-slider
+            aria-label="Select model for comparison"
+          />
+          <span class="slider-label text-slate-400">NN</span>
+        </div>
+
+        {/* Model dots indicator */}
+        <div class="model-dots">
+          <span class="dot lr" title="Logistic Regression"></span>
+          <span class="dot rf active" title="Random Forest"></span>
+          <span class="dot nn" title="Neural Network"></span>
+        </div>
+      </div>
+
+      {/* Animated metrics display */}
+      <div class="metrics-display">
+        <div class="metric-card">
+          <div class="metric-value">
+            <span data-model-f1 class="text-sky-400">0.44</span>
+          </div>
+          <div class="metric-name">F1 Score</div>
+          <div class="metric-bar-container">
+            <div class="metric-bar" data-model-f1-bar style="width: 44%;"></div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value">
+            <span data-model-auc class="text-amber-400">0.72</span>
+          </div>
+          <div class="metric-name">AUC-ROC</div>
+          <div class="metric-bar-container">
+            <div class="metric-bar auc" data-model-auc-bar style="width: 72%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Static model comparison table */}
+    <div class="results-table-container animate-fade-up mb-12">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>F1 Score</th>
+            <th>AUC-ROC</th>
+            <th>Strengths</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="model-cell">
+              <span class="model-dot lr"></span>
+              <span class="model-label">Logistic Regression</span>
+            </td>
+            <td class="metric-cell">{modelResults.logisticRegression.f1.toFixed(2)}</td>
+            <td class="metric-cell">{modelResults.logisticRegression.auc.toFixed(2)}</td>
+            <td class="strength-cell">Fast, interpretable</td>
+          </tr>
+          <tr class="highlighted">
+            <td class="model-cell">
+              <span class="model-dot rf"></span>
+              <span class="model-label">Random Forest</span>
+            </td>
+            <td class="metric-cell">{modelResults.randomForest.f1.toFixed(2)}</td>
+            <td class="metric-cell">{modelResults.randomForest.auc.toFixed(2)}</td>
+            <td class="strength-cell">Best balance</td>
+          </tr>
+          <tr>
+            <td class="model-cell">
+              <span class="model-dot nn"></span>
+              <span class="model-label">Neural Network</span>
+            </td>
+            <td class="metric-cell">{modelResults.neuralNetwork.f1.toFixed(2)}</td>
+            <td class="metric-cell">{modelResults.neuralNetwork.auc.toFixed(2)}</td>
+            <td class="strength-cell">Highest AUC</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {/* Visual metric comparison */}
+    <div class="metric-bars animate-fade-up mb-12">
+      <h3 class="text-lg font-semibold text-white mb-6">F1 Score Comparison</h3>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <span class="bar-label">Logistic Regression</span>
+          <div class="bar-track">
+            <div
+              class="bar-fill lr"
+              data-animate-bar={`${modelResults.logisticRegression.f1 * 100}%`}
+              data-animate-delay="0"
+            >
+              <span class="bar-value">{modelResults.logisticRegression.f1.toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Random Forest</span>
+          <div class="bar-track">
+            <div
+              class="bar-fill rf"
+              data-animate-bar={`${modelResults.randomForest.f1 * 100}%`}
+              data-animate-delay="100"
+            >
+              <span class="bar-value">{modelResults.randomForest.f1.toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Neural Network</span>
+          <div class="bar-track">
+            <div
+              class="bar-fill nn"
+              data-animate-bar={`${modelResults.neuralNetwork.f1 * 100}%`}
+              data-animate-delay="200"
+            >
+              <span class="bar-value">{modelResults.neuralNetwork.f1.toFixed(2)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Key insight callout */}
+    <div class="key-insight animate-fade-up mb-12">
+      <div class="insight-card">
+        <div class="insight-header">
+          <span class="insight-badge">Key Finding</span>
+        </div>
+        <p class="insight-text">
+          Top <strong class="text-sky-400">{features.selected} features</strong> achieve
+          <strong class="text-amber-400">94%</strong> of full model performance
+        </p>
+        <p class="insight-subtext">
+          Feature selection reduced training time by 85% while maintaining predictive accuracy.
+        </p>
+      </div>
+    </div>
+
+    {/* Feature importance */}
+    <div class="feature-importance animate-fade-up mb-12">
+      <h3 class="text-lg font-semibold text-white mb-6">Top Feature Importance</h3>
+      <div class="importance-list" data-stagger-list>
+        {
+          features.topFeatures.map((feature, index) => {
+            const importance = [17.2, 14.8, 13.1, 11.5, 10.2, 8.7][index];
+            return (
+              <div class="importance-item">
+                <div class="importance-header">
+                  <code class="importance-feature">{feature}</code>
+                  <span class="importance-value">{importance}%</span>
+                </div>
+                <div class="importance-bar-track">
+                  <div
+                    class="importance-bar"
+                    data-animate-bar={`${importance * 4}%`}
+                    data-animate-delay={index * 100}
+                  />
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+
+    {/* Metrics explanation */}
+    <div class="metrics-explanation animate-fade-up">
+      <h3 class="text-lg font-semibold text-white mb-4">Understanding the Metrics</h3>
+      <div class="metrics-grid">
+        <div class="metric-explainer">
+          <h4 class="explainer-title">F1 Score</h4>
+          <p class="explainer-desc">
+            Harmonic mean of precision and recall. Balances catching delays (recall)
+            with avoiding false alarms (precision).
+          </p>
+        </div>
+        <div class="metric-explainer">
+          <h4 class="explainer-title">AUC-ROC</h4>
+          <p class="explainer-desc">
+            Area under the receiver operating curve. Measures model's ability to
+            distinguish delayed from on-time flights.
+          </p>
+        </div>
+        <div class="metric-explainer">
+          <h4 class="explainer-title">Why These Matter</h4>
+          <p class="explainer-desc">
+            Imbalanced classes (20% delays) make accuracy misleading. F1 and AUC
+            provide more meaningful evaluation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </Container>
+</Section>
+
+<style>
+  /* Model Slider Section */
+  .model-slider-section {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+  }
+
+  .slider-wrapper {
+    margin-bottom: 1.5rem;
+  }
+
+  .model-name-display {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .slider-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .slider-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    min-width: 1.5rem;
+  }
+
+  .model-slider {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .model-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-sky-400);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+    transition: transform 0.15s ease;
+  }
+
+  .model-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+  }
+
+  .model-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-sky-400);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.5);
+  }
+
+  .model-dots {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 0.75rem;
+  }
+
+  .model-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    opacity: 0.4;
+    transition: opacity 0.2s ease;
+  }
+
+  .model-dots .dot.lr {
+    background: var(--color-green-400);
+  }
+  .model-dots .dot.rf {
+    background: var(--color-sky-400);
+  }
+  .model-dots .dot.nn {
+    background: var(--color-amber-400);
+  }
+  .model-dots .dot.active {
+    opacity: 1;
+  }
+
+  .metrics-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .metric-card {
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    text-align: center;
+  }
+
+  .metric-card .metric-value {
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .metric-card .metric-name {
+    font-size: 0.75rem;
+    color: var(--color-slate-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-bar-container {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .metric-bar {
+    height: 100%;
+    background: var(--color-sky-400);
+    border-radius: 2px;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .metric-bar.auc {
+    background: var(--color-amber-400);
+  }
+
+  /* Results Table */
+  .results-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .results-table th {
+    padding: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-slate-400);
+    background: rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+
+  .results-table td {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .results-table tr.highlighted {
+    background: rgba(79, 195, 247, 0.05);
+  }
+
+  .model-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .model-dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .model-dot.lr {
+    background: var(--color-green-400);
+  }
+
+  .model-dot.rf {
+    background: var(--color-sky-400);
+  }
+
+  .model-dot.nn {
+    background: var(--color-amber-400);
+  }
+
+  .model-label {
+    font-weight: 500;
+    color: var(--color-white);
+  }
+
+  .metric-cell {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-sky-400);
+  }
+
+  .strength-cell {
+    font-size: 0.875rem;
+    color: var(--color-slate-400);
+  }
+
+  .metric-bars {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .bar-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .bar-label {
+    flex-shrink: 0;
+    width: 140px;
+    font-size: 0.875rem;
+    color: var(--color-slate-300);
+    text-align: right;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.25rem;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.75rem;
+    border-radius: 0.25rem;
+    width: 0;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bar-fill.lr {
+    background: linear-gradient(90deg, rgba(129, 199, 132, 0.3), var(--color-green-400));
+  }
+
+  .bar-fill.rf {
+    background: linear-gradient(90deg, rgba(79, 195, 247, 0.3), var(--color-sky-400));
+  }
+
+  .bar-fill.nn {
+    background: linear-gradient(90deg, rgba(255, 183, 77, 0.3), var(--color-amber-400));
+  }
+
+  .bar-value {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-white);
+  }
+
+  .key-insight {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .insight-card {
+    background: linear-gradient(135deg, rgba(79, 195, 247, 0.1), rgba(245, 158, 11, 0.1));
+    border: 1px solid rgba(79, 195, 247, 0.2);
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .insight-header {
+    margin-bottom: 1rem;
+  }
+
+  .insight-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.375rem 1rem;
+    border-radius: 1rem;
+    background: rgba(79, 195, 247, 0.2);
+    color: var(--color-sky-400);
+  }
+
+  .insight-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-white);
+    line-height: 1.4;
+    margin: 0 0 0.75rem;
+  }
+
+  .insight-subtext {
+    font-size: 0.95rem;
+    color: var(--color-slate-400);
+    margin: 0;
+  }
+
+  .feature-importance {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .importance-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .importance-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .importance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .importance-feature {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-amber-400);
+    background: rgba(245, 158, 11, 0.1);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+  }
+
+  .importance-value {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-sky-400);
+  }
+
+  .importance-bar-track {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .importance-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-sky-400), var(--color-amber-400));
+    border-radius: 2px;
+    width: 0;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: left;
+  }
+
+  @media (min-width: 768px) {
+    .metrics-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .metric-explainer {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+
+  .explainer-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-sky-400);
+    margin-bottom: 0.5rem;
+  }
+
+  .explainer-desc {
+    font-size: 0.875rem;
+    color: var(--color-slate-400);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .bar-label {
+      width: 100px;
+      font-size: 0.75rem;
+    }
+
+    .insight-text {
+      font-size: 1.25rem;
+    }
+
+    .metrics-display {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  import {initModelSlider} from '../interactive/ModelSlider';
+  import {initScrollAnimations} from '../../lib/animations';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize scroll animations
+    initScrollAnimations();
+
+    // Initialize model slider
+    initModelSlider('model-slider-container');
+
+    // Update dot indicators when slider changes
+    const sliderInput = document.querySelector<HTMLInputElement>('[data-model-slider]');
+    const dots = document.querySelectorAll('.model-dots .dot');
+
+    if (sliderInput && dots.length > 0) {
+      sliderInput.addEventListener('input', () => {
+        const value = parseInt(sliderInput.value, 10);
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === value);
+        });
+      });
+    }
+
+    // Animate bars when they come into view
+    const barElements = document.querySelectorAll<HTMLElement>('[data-animate-bar]');
+    const barObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            const targetWidth = el.dataset.animateBar || '0%';
+            const delay = parseInt(el.dataset.animateDelay || '0', 10);
+
+            setTimeout(() => {
+              el.style.width = targetWidth;
+            }, delay);
+
+            barObserver.unobserve(el);
+          }
+        });
+      },
+      {threshold: 0.3},
+    );
+
+    barElements.forEach(bar => barObserver.observe(bar));
+  });
+</script>

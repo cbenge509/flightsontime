@@ -91,6 +91,22 @@ The single most predictive feature was whether **the previous flight on the same
 
 ---
 
+## Interactive Documentation Site
+
+We've built a data journalism-style scrollytelling website to showcase this project:
+
+**[cbenge509.github.io/flightsontime](https://cbenge509.github.io/flightsontime)**
+
+Features:
+- Animated flight map visualization
+- Interactive model comparison slider
+- Scroll-triggered animations and EDA visualizations
+- Fully responsive design
+
+Built with Astro 5, Tailwind CSS v4, and TypeScript. See [`docs-site/`](docs-site/) for development details.
+
+---
+
 ## Running Locally
 
 Built for Azure Databricks. To explore the notebooks locally:

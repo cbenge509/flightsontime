@@ -1,0 +1,61 @@
+---
+/**
+ * Section Component - Phase 2.4
+ *
+ * A full-viewport section wrapper with scroll-snap alignment.
+ * Used for each major section in the scrollytelling narrative.
+ */
+import type {SectionProps} from '../../types';
+
+interface Props extends SectionProps {
+  /** Whether the section should be full height (default: true) */
+  fullHeight?: boolean;
+  /** Vertical alignment of content */
+  align?: 'start' | 'center' | 'end';
+  /** Additional padding classes */
+  padding?: 'none' | 'default' | 'large';
+}
+
+const {
+  id,
+  background = 'dark',
+  className = '',
+  fullHeight = true,
+  align = 'center',
+  padding = 'default',
+} = Astro.props;
+
+const bgClasses: Record<string, string> = {
+  dark: 'bg-slate-900',
+  light: 'bg-slate-100 text-slate-900',
+  gradient: 'bg-gradient-to-b from-slate-900 to-slate-800',
+  'gradient-reverse': 'bg-gradient-to-b from-slate-800 to-slate-900',
+  accent: 'bg-slate-800',
+};
+
+const alignClasses: Record<string, string> = {
+  start: 'justify-start',
+  center: 'justify-center',
+  end: 'justify-end',
+};
+
+const paddingClasses: Record<string, string> = {
+  none: '',
+  default: 'py-16 md:py-24',
+  large: 'py-24 md:py-32',
+};
+---
+
+<section
+  id={id}
+  class:list={[
+    'flex flex-col',
+    fullHeight && 'min-h-screen scroll-snap-align-start',
+    bgClasses[background] || bgClasses.dark,
+    alignClasses[align],
+    paddingClasses[padding],
+    className,
+  ]}
+>
+  <slot />
+</section>

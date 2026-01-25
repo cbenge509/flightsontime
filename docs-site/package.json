@@ -1,0 +1,36 @@
+{
+  "name": "docs-site",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lint": "gts lint",
+    "lint:fix": "gts fix",
+    "format": "prettier --write .",
+    "clean": "gts clean",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.15",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^22.7.5",
+    "@typescript-eslint/parser": "^8.53.1",
+    "@vitest/ui": "^4.0.18",
+    "eslint-plugin-astro": "^1.5.0",
+    "gts": "^7.0.0",
+    "jsdom": "^27.4.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

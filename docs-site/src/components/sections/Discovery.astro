@@ -1,0 +1,223 @@
+---
+/**
+ * Discovery Section - Phase 4.2
+ *
+ * EDA visualizations with scroll-reveal animations.
+ * Presents key insights from exploratory data analysis.
+ */
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import ImageReveal from '../ui/ImageReveal.astro';
+import {edaImages} from '../../lib/images';
+---
+
+<Section id="discovery" background="gradient" align="start">
+  <Container size="wide" className="py-8">
+    {/* Section header */}
+    <div class="text-center mb-16 animate-fade-up">
+      <h2 class="headline-section text-white mb-4">Discovery</h2>
+      <p class="body-large text-slate-300 max-w-2xl mx-auto">
+        Exploring patterns in 31 million flights to uncover what drives delays.
+      </p>
+    </div>
+
+    {/* Discovery sub-sections */}
+    <div class="discovery-grid">
+      {/* Sub-section 1: Airline delays */}
+      <div class="discovery-item animate-fade-up">
+        <div class="discovery-content">
+          <h3 class="headline-subsection text-white mb-3">
+            Which Airlines Delay Most?
+          </h3>
+          <p class="body-default text-slate-300 mb-4">
+            Delay rates vary significantly across carriers. Frontier and JetBlue show
+            the highest delay percentages, while Hawaiian Airlines performs best. This
+            suggests operational factors beyond weather play a significant role.
+          </p>
+          <div class="insight-callout">
+            <span class="insight-icon">💡</span>
+            <span class="insight-text">
+              Low-cost carriers tend to have tighter turnaround times, correlating with
+              higher delay rates.
+            </span>
+          </div>
+        </div>
+        <div class="discovery-visual">
+          <ImageReveal
+            src={edaImages.delaysByAirline}
+            alt="Flight delays by airline showing percentage of delayed flights for each carrier"
+            caption="Percentage of flights delayed by carrier (2015-2019)"
+          />
+        </div>
+      </div>
+
+      {/* Sub-section 2: Geographic patterns */}
+      <div class="discovery-item reverse animate-fade-up">
+        <div class="discovery-content">
+          <h3 class="headline-subsection text-white mb-3">
+            Geographic Patterns
+          </h3>
+          <p class="body-default text-slate-300 mb-4">
+            Flight volume concentrates around major hubs: Atlanta, Chicago O'Hare,
+            Dallas-Fort Worth, Denver, and Los Angeles. These hub airports see the
+            most flights but also experience cascading delay effects.
+          </p>
+          <div class="insight-callout">
+            <span class="insight-icon">📍</span>
+            <span class="insight-text">
+              Hub airports create network effects where a single delay can propagate
+              across the system.
+            </span>
+          </div>
+        </div>
+        <div class="discovery-visual">
+          <ImageReveal
+            src={edaImages.flightVolumeMap}
+            alt="Map showing flight volume distribution across US airports"
+            caption="Flight volume by airport location"
+          />
+        </div>
+      </div>
+
+      {/* Sub-section 3: Correlation story */}
+      <div class="discovery-item animate-fade-up">
+        <div class="discovery-content">
+          <h3 class="headline-subsection text-white mb-3">
+            The Correlation Story
+          </h3>
+          <p class="body-default text-slate-300 mb-4">
+            Feature correlation analysis reveals which variables have the strongest
+            relationships with delays. Previous flight delays show the highest
+            correlation—a delayed inbound flight means a delayed outbound.
+          </p>
+          <div class="insight-callout">
+            <span class="insight-icon">🔗</span>
+            <span class="insight-text">
+              Aircraft utilization patterns create delay chains. The same plane
+              serves multiple flights per day.
+            </span>
+          </div>
+        </div>
+        <div class="discovery-visual">
+          <ImageReveal
+            src={edaImages.correlation}
+            alt="Correlation heatmap showing relationships between flight delay features"
+            caption="Feature correlation matrix for delay prediction"
+          />
+        </div>
+      </div>
+
+      {/* Sub-section 4: Previous flight effect */}
+      <div class="discovery-item reverse animate-fade-up">
+        <div class="discovery-content">
+          <h3 class="headline-subsection text-white mb-3">
+            The Previous Flight Effect
+          </h3>
+          <p class="body-default text-slate-300 mb-4">
+            The strongest predictor of delay is whether the previous flight on the
+            same aircraft was delayed. This single feature captures operational
+            dependencies that weather data alone cannot explain.
+          </p>
+          <div class="insight-callout accent">
+            <span class="insight-icon">🎯</span>
+            <span class="insight-text">
+              <strong>DEP_DEL15_PREV</strong> becomes our most important feature,
+              achieving 17%+ of total feature importance.
+            </span>
+          </div>
+        </div>
+        <div class="discovery-visual">
+          <ImageReveal
+            src={edaImages.delayPrevFlight}
+            alt="Analysis showing correlation between previous flight delay and current flight delay"
+            caption="Impact of previous flight delay status"
+          />
+        </div>
+      </div>
+    </div>
+
+    {/* Transition to next section */}
+    <div class="section-transition animate-fade-up">
+      <p class="body-large text-slate-400 text-center">
+        Armed with these insights, we designed a prediction pipeline.
+      </p>
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .discovery-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+  }
+
+  .discovery-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .discovery-item {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+    }
+
+    .discovery-item.reverse {
+      grid-template-columns: 1.2fr 1fr;
+    }
+
+    .discovery-item.reverse .discovery-content {
+      order: 2;
+    }
+
+    .discovery-item.reverse .discovery-visual {
+      order: 1;
+    }
+  }
+
+  .discovery-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .discovery-visual {
+    width: 100%;
+  }
+
+  .insight-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: rgba(79, 195, 247, 0.05);
+    border: 1px solid rgba(79, 195, 247, 0.15);
+    margin-top: auto;
+  }
+
+  .insight-callout.accent {
+    background: rgba(245, 158, 11, 0.05);
+    border-color: rgba(245, 158, 11, 0.2);
+  }
+
+  .insight-icon {
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .insight-text {
+    font-size: 0.9rem;
+    color: var(--color-slate-300);
+    line-height: 1.5;
+  }
+
+  .section-transition {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+</style>

@@ -1,0 +1,328 @@
+---
+/**
+ * Data Section - Phase 3.3
+ *
+ * Overview of the datasets used in the project.
+ * Presents Flights, Weather, and Stations data with key metrics.
+ */
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import {datasets} from '../../lib/data';
+---
+
+<Section id="data" background="dark" align="center">
+  <Container size="default" className="text-center">
+    {/* Section headline */}
+    <h2 class="headline-section text-white mb-4">The Data</h2>
+
+    <p class="body-large text-slate-300 max-w-2xl mx-auto mb-16">
+      Combining flight records, weather observations, and station metadata to
+      build a comprehensive prediction model.
+    </p>
+
+    {/* Dataset cards */}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      {/* Flights dataset */}
+      <div class="data-card animate-fade-up">
+        <div class="card-icon flights-icon">
+          <svg
+            class="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-white mb-2">Flights</h3>
+        <div class="metric-medium text-sky-400 mb-1">{datasets.flights.records}</div>
+        <p class="text-sm text-slate-400 mb-4">records</p>
+        <ul class="data-details">
+          <li>
+            <span class="detail-label">Period:</span>
+            <span class="detail-value">{datasets.flights.years}</span>
+          </li>
+          <li>
+            <span class="detail-label">Fields:</span>
+            <span class="detail-value">{datasets.flights.fields} columns</span>
+          </li>
+          <li>
+            <span class="detail-label">Target:</span>
+            <span class="detail-value">DEP_DEL15</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Weather dataset */}
+      <div class="data-card animate-fade-up stagger-1">
+        <div class="card-icon weather-icon">
+          <svg
+            class="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-white mb-2">Weather</h3>
+        <div class="metric-medium text-amber-400 mb-1">{datasets.weather.observations}</div>
+        <p class="text-sm text-slate-400 mb-4">observations</p>
+        <ul class="data-details">
+          <li>
+            <span class="detail-label">Stations:</span>
+            <span class="detail-value">{datasets.weather.stations} mapped</span>
+          </li>
+          <li>
+            <span class="detail-label">Frequency:</span>
+            <span class="detail-value">Hourly</span>
+          </li>
+          <li>
+            <span class="detail-label">Features:</span>
+            <span class="detail-value">Wind, Vis, Temp</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Stations dataset */}
+      <div class="data-card animate-fade-up stagger-2">
+        <div class="card-icon stations-icon">
+          <svg
+            class="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+            ></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-white mb-2">Stations</h3>
+        <div class="metric-medium text-green-400 mb-1">
+          {datasets.stations.count?.toLocaleString()}
+        </div>
+        <p class="text-sm text-slate-400 mb-4">weather stations</p>
+        <ul class="data-details">
+          <li>
+            <span class="detail-label">Mapped:</span>
+            <span class="detail-value">{datasets.stations.mapped} to airports</span>
+          </li>
+          <li>
+            <span class="detail-label">Coverage:</span>
+            <span class="detail-value">Continental US</span>
+          </li>
+          <li>
+            <span class="detail-label">Matching:</span>
+            <span class="detail-value">Nearest station</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    {/* Data integration visual */}
+    <div class="integration-flow animate-fade-up">
+      <div class="flow-step">
+        <div class="flow-icon">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"
+            ></path>
+          </svg>
+        </div>
+        <span class="text-sm text-slate-400">Raw Data</span>
+      </div>
+      <div class="flow-arrow">
+        <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"
+          ></path>
+        </svg>
+      </div>
+      <div class="flow-step">
+        <div class="flow-icon">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+            ></path>
+          </svg>
+        </div>
+        <span class="text-sm text-slate-400">Clean & Join</span>
+      </div>
+      <div class="flow-arrow">
+        <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"
+          ></path>
+        </svg>
+      </div>
+      <div class="flow-step">
+        <div class="flow-icon">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+            ></path>
+          </svg>
+        </div>
+        <span class="text-sm text-slate-400">Feature Engineering</span>
+      </div>
+      <div class="flow-arrow">
+        <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"
+          ></path>
+        </svg>
+      </div>
+      <div class="flow-step">
+        <div class="flow-icon highlight">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+            ></path>
+          </svg>
+        </div>
+        <span class="text-sm text-sky-400">ML Models</span>
+      </div>
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .data-card {
+    padding: 2rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    transition: border-color 0.3s ease;
+  }
+
+  .data-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    margin: 0 auto 1rem;
+  }
+
+  .flights-icon {
+    background: rgba(79, 195, 247, 0.1);
+    color: var(--color-sky-400);
+  }
+
+  .weather-icon {
+    background: rgba(255, 183, 77, 0.1);
+    color: var(--color-amber-400);
+  }
+
+  .stations-icon {
+    background: rgba(129, 199, 132, 0.1);
+    color: var(--color-green-400);
+  }
+
+  .data-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1rem;
+  }
+
+  .data-details li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 0.875rem;
+  }
+
+  .detail-label {
+    color: var(--color-slate-500);
+  }
+
+  .detail-value {
+    color: var(--color-slate-300);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+
+  .integration-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .flow-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-slate-400);
+  }
+
+  .flow-icon.highlight {
+    background: rgba(79, 195, 247, 0.15);
+    color: var(--color-sky-400);
+  }
+
+  .flow-arrow {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .flow-arrow {
+      display: flex;
+    }
+  }
+</style>

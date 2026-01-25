@@ -1,0 +1,42 @@
+---
+/**
+ * Main Page - Flight Delay Prediction
+ *
+ * Single-page scrollytelling with all sections arranged in narrative order.
+ * Phase 3: Static sections (Hero, Problem, Data, Footer)
+ * Phase 4: EDA & Content sections (Discovery, Approach, Results)
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Problem from '../components/sections/Problem.astro';
+import Data from '../components/sections/Data.astro';
+import Discovery from '../components/sections/Discovery.astro';
+import Approach from '../components/sections/Approach.astro';
+import Results from '../components/sections/Results.astro';
+import Footer from '../components/sections/Footer.astro';
+---
+
+<BaseLayout>
+  <main class="scroll-snap-y">
+    {/* 1. Hero - Opening with key metrics */}
+    <Hero />
+
+    {/* 2. The Problem - Business context and costs */}
+    <Problem />
+
+    {/* 3. The Data - Dataset overview */}
+    <Data />
+
+    {/* 4. Discovery - EDA visualizations */}
+    <Discovery />
+
+    {/* 5. The Approach - Pipeline and features */}
+    <Approach />
+
+    {/* 6. Results - Model comparison */}
+    <Results />
+
+    {/* 7. Footer - Team and attribution */}
+    <Footer />
+  </main>
+</BaseLayout>

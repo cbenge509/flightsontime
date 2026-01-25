@@ -1,0 +1,73 @@
+---
+/**
+ * ImageReveal Component - Phase 4.2
+ *
+ * Displays images with fade-in animation on scroll.
+ * Uses Astro's Image component for optimization.
+ */
+import {Image} from 'astro:assets';
+import type {ImageMetadata} from 'astro';
+
+interface Props {
+  /** Image source (imported image) */
+  src: ImageMetadata;
+  /** Alt text for accessibility */
+  alt: string;
+  /** Optional caption */
+  caption?: string;
+  /** Animation delay class */
+  stagger?: 0 | 1 | 2 | 3 | 4 | 5;
+  /** Additional CSS classes */
+  className?: string;
+}
+
+const {src, alt, caption, stagger = 0, className = ''} = Astro.props;
+const staggerClass = stagger > 0 ? `stagger-${stagger}` : '';
+---
+
+<figure class:list={['image-reveal', 'animate-fade-up', staggerClass, className]}>
+  <div class="image-container">
+    <Image
+      src={src}
+      alt={alt}
+      class="reveal-image"
+      loading="lazy"
+      decoding="async"
+    />
+  </div>
+  {caption && <figcaption class="image-caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .image-reveal {
+    margin: 0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .image-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .reveal-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease-out;
+  }
+
+  .image-reveal:hover .reveal-image {
+    transform: scale(1.02);
+  }
+
+  .image-caption {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: var(--color-slate-400);
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+</style>

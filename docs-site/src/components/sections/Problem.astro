@@ -1,0 +1,175 @@
+---
+/**
+ * Problem Section - Phase 3.2
+ *
+ * Presents the business context and cost of flight delays.
+ * Uses data journalism aesthetic with large numbers and brief context.
+ */
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import {problemStats} from '../../lib/data';
+---
+
+<Section id="problem" background="accent" align="center">
+  <Container size="default" className="text-center">
+    {/* Section headline */}
+    <h2 class="headline-section text-white mb-4">
+      The <span class="gradient-text-warm">{problemStats.annualCost}</span> Problem
+    </h2>
+
+    <p class="body-large text-slate-300 max-w-2xl mx-auto mb-16">
+      Flight delays cost the U.S. economy billions annually, affecting
+      passengers, airlines, and the broader transportation system.
+    </p>
+
+    {/* Key statistics */}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <div class="stat-card animate-fade-up">
+        <div class="metric-large text-amber-400">{problemStats.annualCost}</div>
+        <div class="metric-label text-slate-400 mt-2">Annual Cost</div>
+        <p class="text-sm text-slate-500 mt-3">
+          Economic impact on passengers and airlines
+        </p>
+      </div>
+
+      <div class="stat-card animate-fade-up stagger-1">
+        <div class="metric-large text-red-400">{problemStats.delayedFlights}</div>
+        <div class="metric-label text-slate-400 mt-2">Flights Delayed</div>
+        <p class="text-sm text-slate-500 mt-3">
+          One in five flights arrives late
+        </p>
+      </div>
+
+      <div class="stat-card animate-fade-up stagger-2">
+        <div class="metric-large text-sky-400">{problemStats.averageDelay}</div>
+        <div class="metric-label text-slate-400 mt-2">Average Delay</div>
+        <p class="text-sm text-slate-500 mt-3">
+          Time lost per delayed flight
+        </p>
+      </div>
+    </div>
+
+    {/* Pain points */}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="pain-point animate-fade-up">
+        <div class="pain-icon">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-white text-sm">Missed Connections</h3>
+        <p class="text-xs text-slate-500">Cascading delays across networks</p>
+      </div>
+
+      <div class="pain-point animate-fade-up stagger-1">
+        <div class="pain-icon">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-white text-sm">Hidden Costs</h3>
+        <p class="text-xs text-slate-500">Hotels, meals, rebooking fees</p>
+      </div>
+
+      <div class="pain-point animate-fade-up stagger-2">
+        <div class="pain-icon">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            ></path>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-white text-sm">Lost Productivity</h3>
+        <p class="text-xs text-slate-500">Business meetings and deadlines</p>
+      </div>
+
+      <div class="pain-point animate-fade-up stagger-3">
+        <div class="pain-icon">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-white text-sm">Operational Strain</h3>
+        <p class="text-xs text-slate-500">Crew scheduling, gate management</p>
+      </div>
+    </div>
+
+    {/* Question lead-in */}
+    <p class="body-default text-slate-400 mt-16 italic">
+      Can we predict which flights will be delayed before they depart?
+    </p>
+  </Container>
+</Section>
+
+<style>
+  .stat-card {
+    padding: 2rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .pain-point {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.25rem 1rem;
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+  }
+
+  .pain-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background: rgba(79, 195, 247, 0.1);
+    color: var(--color-sky-400);
+    margin-bottom: 0.25rem;
+  }
+</style>

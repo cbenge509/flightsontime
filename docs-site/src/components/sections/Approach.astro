@@ -1,0 +1,360 @@
+---
+/**
+ * Approach Section - Phase 4.3
+ *
+ * Pipeline overview, feature engineering, and model selection.
+ * Shows the technical architecture of the solution.
+ */
+import Section from '../ui/Section.astro';
+import Container from '../ui/Container.astro';
+import ImageReveal from '../ui/ImageReveal.astro';
+import {architectureImages} from '../../lib/images';
+import {features} from '../../lib/data';
+---
+
+<Section id="approach" background="dark" align="start">
+  <Container size="wide" className="py-8">
+    {/* Section header */}
+    <div class="text-center mb-16 animate-fade-up">
+      <h2 class="headline-section text-white mb-4">The Approach</h2>
+      <p class="body-large text-slate-300 max-w-2xl mx-auto">
+        A scalable machine learning pipeline built on PySpark and TensorFlow.
+      </p>
+    </div>
+
+    {/* Architecture overview */}
+    <div class="architecture-block animate-fade-up mb-16">
+      <h3 class="headline-subsection text-white mb-6 text-center">
+        Solution Architecture
+      </h3>
+      <ImageReveal
+        src={architectureImages.solutionArchitecture}
+        alt="Solution architecture diagram showing data pipeline from raw data through feature engineering to model training and prediction"
+        caption="End-to-end ML pipeline running on Azure Databricks"
+      />
+    </div>
+
+    {/* Feature engineering section */}
+    <div class="feature-engineering animate-fade-up">
+      <div class="feature-header">
+        <h3 class="headline-subsection text-white mb-3">
+          Feature Engineering
+        </h3>
+        <p class="body-default text-slate-300 mb-6">
+          From {features.total} candidate features, we selected the top {features.selected} based
+          on importance analysis. These features capture 94% of the predictive power
+          while reducing computational complexity.
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        {/* Top features list */}
+        <div class="feature-list">
+          <h4 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-4">
+            Selected Features
+          </h4>
+          <ol class="features">
+            {features.topFeatures.map((feature, index) => (
+              <li class="feature-item">
+                <span class="feature-rank">{index + 1}</span>
+                <span class="feature-name">{feature}</span>
+                <span class="feature-bar" style={`width: ${100 - index * 12}%`} />
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* Feature descriptions */}
+        <div class="feature-descriptions">
+          <h4 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-4">
+            Feature Insights
+          </h4>
+          <div class="description-cards">
+            <div class="desc-card">
+              <code class="feature-code">DEP_DEL15_PREV</code>
+              <p>Previous flight delay status—our most powerful predictor</p>
+            </div>
+            <div class="desc-card">
+              <code class="feature-code">CRS_DEP_TIME_bucket</code>
+              <p>Scheduled departure time binned into operational periods</p>
+            </div>
+            <div class="desc-card">
+              <code class="feature-code">OD_GROUP</code>
+              <p>Origin-destination pair encoding route characteristics</p>
+            </div>
+            <div class="desc-card">
+              <code class="feature-code">wnd_speed, vis_distance, dest_tmp</code>
+              <p>Weather conditions at departure and arrival airports</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Model selection */}
+    <div class="model-selection animate-fade-up mt-16">
+      <h3 class="headline-subsection text-white mb-6 text-center">
+        Model Selection
+      </h3>
+      <div class="model-cards">
+        <div class="model-card">
+          <div class="model-icon lr-icon">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+            </svg>
+          </div>
+          <h4 class="model-name">Logistic Regression</h4>
+          <p class="model-desc">Baseline model with L2 regularization. Fast training, interpretable coefficients.</p>
+          <span class="model-tag">Baseline</span>
+        </div>
+
+        <div class="model-card featured">
+          <div class="model-icon rf-icon">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+            </svg>
+          </div>
+          <h4 class="model-name">Random Forest</h4>
+          <p class="model-desc">Ensemble of 100 trees with max depth 10. Best balance of performance and speed.</p>
+          <span class="model-tag accent">Best F1</span>
+        </div>
+
+        <div class="model-card">
+          <div class="model-icon nn-icon">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h4 class="model-name">Neural Network</h4>
+          <p class="model-desc">Feed-forward network with 3 hidden layers. TensorFlow on GPU for training.</p>
+          <span class="model-tag">Deep Learning</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Data engineering diagram */}
+    <div class="data-engineering animate-fade-up mt-16">
+      <h3 class="headline-subsection text-white mb-6 text-center">
+        Data Engineering Pipeline
+      </h3>
+      <ImageReveal
+        src={architectureImages.dataEngineering}
+        alt="Data engineering pipeline showing ETL process from raw data sources"
+        caption="ETL pipeline processing 31M+ flight records"
+      />
+    </div>
+  </Container>
+</Section>
+
+<style>
+  .architecture-block {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .feature-engineering {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+
+  .feature-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .feature-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .feature-list {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  .features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    padding: 0.5rem 0;
+  }
+
+  .feature-rank {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(79, 195, 247, 0.2);
+    color: var(--color-sky-400);
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .feature-name {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-slate-200);
+    flex-shrink: 0;
+    min-width: 140px;
+  }
+
+  .feature-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-sky-400), var(--color-sky-500));
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+
+  .feature-descriptions {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .description-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .desc-card {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    padding: 1rem;
+  }
+
+  .feature-code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-amber-400);
+    background: rgba(245, 158, 11, 0.1);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+  }
+
+  .desc-card p {
+    margin: 0.5rem 0 0;
+    font-size: 0.875rem;
+    color: var(--color-slate-400);
+    line-height: 1.4;
+  }
+
+  .model-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .model-cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .model-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: border-color 0.3s ease;
+  }
+
+  .model-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .model-card.featured {
+    border-color: rgba(79, 195, 247, 0.3);
+    background: rgba(79, 195, 247, 0.03);
+  }
+
+  .model-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.75rem;
+    margin: 0 auto 1rem;
+  }
+
+  .lr-icon {
+    background: rgba(129, 199, 132, 0.1);
+    color: var(--color-green-400);
+  }
+
+  .rf-icon {
+    background: rgba(79, 195, 247, 0.1);
+    color: var(--color-sky-400);
+  }
+
+  .nn-icon {
+    background: rgba(255, 183, 77, 0.1);
+    color: var(--color-amber-400);
+  }
+
+  .model-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-white);
+    margin-bottom: 0.5rem;
+  }
+
+  .model-desc {
+    font-size: 0.875rem;
+    color: var(--color-slate-400);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .model-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-slate-400);
+  }
+
+  .model-tag.accent {
+    background: rgba(79, 195, 247, 0.15);
+    color: var(--color-sky-400);
+  }
+
+  .data-engineering {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+</style>
