@@ -1,83 +1,101 @@
-Flight Delay & Ontime Prediction
-==========================================================
+# Flight Delay Prediction at Scale
 
-![GitHub](https://img.shields.io/github/license/cbenge509/flightsontime) ![GitHub Pipenv locked Python version](https://img.shields.io/github/pipenv/locked/python-version/cbenge509/flightsontime) ![GitHub Pipenv locked dependency version](https://img.shields.io/github/pipenv/locked/dependency-version/cbenge509/flightsontime/xgboost) ![GitHub Pipenv locked dependency version](https://img.shields.io/github/pipenv/locked/dependency-version/cbenge509/flightsontime/plotly) ![GitHub Pipenv locked dependency version](https://img.shields.io/github/pipenv/locked/dependency-version/cbenge509/flightsontime/seaborn) ![GitHub Pipenv locked dependency version](https://img.shields.io/github/pipenv/locked/dependency-version/cbenge509/flightsontime/tensorflow)
+**An end-to-end machine learning pipeline for predicting U.S. flight delays**
 
-<img align="right" width="180" src="./images/ucb.png"/> 
+![Python](https://img.shields.io/github/pipenv/locked/python-version/cbenge509/flightsontime)
+![License](https://img.shields.io/github/license/cbenge509/flightsontime)
 
-#### Authors : [Ning (Louis) Li](https://www.linkedin.com/in/louisli/) | [Andrew Fogarty](https://www.linkedin.com/in/afogarty85/) | [Siduo (Stone) Jiang](https://www.linkedin.com/in/siduojiang/) | [Cristopher Benge](https://cbenge509.github.io/)
-
-[![](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/images/0)](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/links/0)[![](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/images/1)](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/links/1)[![](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/images/2)](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/links/2)[![](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/images/3)](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/links/3)[![](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/images/4)](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/links/4)[![](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/images/5)](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/links/5)[![](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/images/6)](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/links/6)[![](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/images/7)](https://sourcerer.io/fame/cbenge509/cbenge509/flightsontime/links/7)
-
-
-U.C. Berkeley, Masters in Information & Data Science program - [datascience@berkeley](https://datascience.berkeley.edu/) <br>
-Fall 2020, W261 - Machine Learning at Scale - [James York-Winegar](https://www.ischool.berkeley.edu/people/james-york-winegar) || [Jacob Baumbach](https://www.ischool.berkeley.edu/people/jacob-baumbach)
+*UC Berkeley MIDS W261 · Machine Learning at Scale · Fall 2020*
 
 ---
 
-## Description
+## The Problem
 
-Flight delays create problems in scheduling for airlines and airports, leading to passenger inconvenience, and huge economic losses. As a result there is growing interest in predicting flight delays beforehand in order to optimize operations and improve customer satisfaction. In this project, we predict flight delays using the W261 datasets provided. All tasks for this problem to be tackled in Microsoft Azure Databricks.
+Flight delays cost U.S. airlines over $25 billion annually and strand millions of passengers each year. But what if we could predict delays before they happen—giving airlines time to adjust operations and passengers time to rebook?
 
-This repository contains the code, models, and documentation to predict flight delays as part of the final project for W261 in the Fall 2020 semester.
+**The challenge:** Can we predict, at least two hours before departure, whether a flight will be delayed by 15+ minutes?
 
-#### Highlight of key files included in this repository:
+This isn't a simple classification problem. It requires:
 
-  |File | Description |
-  |:----|:------------|
-  | [Final Presentation](/presentation/Delayed%20Flights%20Prediction%20-%20Final.pptx) | Our final presentation and overview of solution. |
-  | [Preprocessing & Feature Engineering](/notebooks/1.%20Preprocessing%20and%20Feature%20Engineering.ipynb) | Data pre-processing and feature engineering. |
-  | [EDA: Flights Data](/notebooks/2.1%20EDA%20-%20Flights.ipynb) | Exploratory data analysis for `FLIGHTS` dataset. |
-  | [EDA: Weather & Stations Data](/notebooks/2.2%20EDA%20-%20Weather.ipynb) | Exploratory data analysis for `WEATHER` and `STATIONS` dataset. |
-  | [Toy Model](/notebooks/3.%20Toy_LR.ipynb) | Toy Logistic Regression model. |
-  | [Model Training](/notebooks/4.%20Model%20Development%20with%20PySpark%20ML.ipynb) | Machine learning model training and cross-validation. |
-  | [Neural Network Pipeline](/notebooks/5.%20FF_NN%20Pipeline.ipynb) | Feed-forward neural network model pipeline notebook. |
-  
----
+- **Predicting before departure** — no cheating with in-flight data or arrival information
+- **Operating at scale** — 31 million flight records spanning multiple years
+- **Integrating heterogeneous data** — joining flight schedules with weather observations from 5,000+ weather stations
 
-Data Processing Pipeline
--------------
-
-<img src="./images/data_engineering.png" align="center"/>
-
+<p align="center">
+  <img src="./images/EDA_flight_volume_map.png" alt="Flight volume across U.S. airports" width="700"/>
+</p>
 
 ---
 
-Solution Architecture
------------
+## Our Approach
 
-<img src="./images/solution_architecture.png" align="center">
+We built a complete pipeline that joins flight schedules with historical weather data and station metadata, engineers predictive features from these sources, then trains and evaluates multiple model architectures—from a baseline logistic regression to gradient-boosted trees and distributed neural networks.
 
----
+### Pipeline
 
-Data Visualization
--------------
+| Stage | Description |
+|:------|:------------|
+| **1. Data Integration** | Join 31M flight records with weather observations, mapping each airport to its nearest weather stations |
+| **2. Feature Engineering** | Create temporal features (time of day, day of week), geographic features (origin/destination PageRank), carrier history, and weather conditions at both endpoints |
+| **3. Baseline Model** | Hand-rolled logistic regression to establish a performance floor and validate our approach |
+| **4. Production Models** | PySpark ML (Random Forest, GBT) with cross-validation; TensorFlow neural network with Horovod for distributed training |
 
-<img src="./images/EDA_flight_volume_map.png" align="center"/><br>
+<p align="center">
+  <img src="./images/data_engineering.png" alt="Data engineering pipeline" width="800"/>
+</p>
 
-<img src="./images/EDA_delays_by_airline.png" align="center"/><br>
+### Tech Stack
 
-<img src="./images/EDA_delay_prev_flight.png" align="center"/><br>
-
-<img src="./images/EDA_annual_delayed_flights.png" align="center"/><br>
-
-<img src="./images/EDA_delay_average_by_airline.png" align="center"/><br>
-
-<img src="./images/EDA_correlation.png" align="center"/><br>
-
-<img src="./images/EDA_ontime_flights.png" align="center"/><br>
-
-<img src="./images/EDA_origin_delays.png" align="center"/><br>
+`PySpark ML` · `TensorFlow` · `Horovod` · `XGBoost` · `Azure Databricks` · `Koalas`
 
 ---
 
-Toy Example (LR)
----------------
+## Results
 
-<img src="./images/LR_toy_example.png" align="left"/><br>
+We evaluated models using an 80/10/10 temporal split (training on earlier flights, testing on later ones) to simulate real-world deployment. Given the class imbalance (~18% delayed flights), we optimized for F1 score rather than accuracy.
+
+| Model | F1 Score | AUC | Notes |
+|:------|:--------:|:---:|:------|
+| Logistic Regression | 0.44 | 0.68 | Baseline with L2 regularization, optimized threshold |
+| Random Forest | **0.50** | **0.71** | Best performance with top 6 features selected via importance |
+| Neural Network | ~0.80 acc | — | 3-layer network with embeddings, distributed via Horovod* |
+
+<sub>*Neural network accuracy approximate; trained on 10-node cluster with categorical embeddings</sub>
+
+### What We Learned
+
+The single most predictive feature was whether **the previous flight on the same aircraft was delayed**—a cascading effect that propagates through an airline's daily schedule. Departure time and origin-destination routing followed in importance. Weather features improved predictions modestly, but operational factors dominated.
+
+<p align="center">
+  <img src="./images/EDA_correlation.png" alt="Correlation between delays and on-time performance" width="600"/>
+</p>
 
 ---
 
-License
--------
-Licensed under the MIT License. See [LICENSE](LICENSE.txt) file for more details.
+## Repository Structure
+
+| Pipeline Stage | Notebook |
+|:---------------|:---------|
+| Data Integration & Features | [Preprocessing and Feature Engineering](notebooks/1.%20Preprocessing%20and%20Feature%20Engineering.ipynb) |
+| Exploratory Analysis | [Flights EDA](notebooks/2.1%20EDA%20-%20Flights.ipynb) · [Weather EDA](notebooks/2.2%20EDA%20-%20Weather.ipynb) |
+| Baseline Model | [Logistic Regression](notebooks/3.%20Toy_LR.ipynb) |
+| Production Models | [PySpark ML](notebooks/4.%20Model%20Development%20with%20PySpark%20ML.ipynb) · [Neural Network](notebooks/5.%20FF_NN%20Pipeline.ipynb) |
+
+---
+
+## Running Locally
+
+Built for Azure Databricks. To explore the notebooks locally:
+
+```bash
+# Python 3.7.6
+pip install -r requirements.txt
+# or
+pipenv install
+```
+
+---
+
+<sub>**Team:** [Ning Li](https://www.linkedin.com/in/louisli/) · [Andrew Fogarty](https://www.linkedin.com/in/afogarty85/) · [Siduo Jiang](https://www.linkedin.com/in/siduojiang/) · [Cristopher Benge](https://cbenge509.github.io/) · UC Berkeley MIDS W261, Fall 2020</sub>
+
+<sub>Licensed under MIT · See [LICENSE](LICENSE.txt)</sub>
