@@ -18,7 +18,8 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run preview',
-    url: 'http://localhost:4321',
+    url: 'http://localhost:4321/flightsontime/',
     reuseExistingServer: !process.env.CI,
+    timeout: 120000,
   },
 });
