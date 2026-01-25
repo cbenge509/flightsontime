@@ -73,6 +73,8 @@ export interface ObserverOptions {
   rootMargin?: string;
   /** Whether to trigger only once */
   once?: boolean;
+  /** Root element for intersection (defaults to viewport) */
+  root?: Element | null;
 }
 
 export type AnimationType =

@@ -13,6 +13,7 @@ export const DEFAULT_OBSERVER_OPTIONS: Required<ObserverOptions> = {
   threshold: 0.1,
   rootMargin: '0px',
   once: true,
+  root: null,
 };
 
 /**
@@ -26,7 +27,7 @@ export function createScrollObserver(
   callback: (entry: IntersectionObserverEntry) => void,
   options: ObserverOptions = {},
 ): IntersectionObserver {
-  const {threshold, rootMargin, once} = {
+  const {threshold, rootMargin, once, root} = {
     ...DEFAULT_OBSERVER_OPTIONS,
     ...options,
   };
@@ -45,6 +46,7 @@ export function createScrollObserver(
     {
       threshold,
       rootMargin,
+      root,
     },
   );
 
@@ -132,13 +134,25 @@ export function getStaggerClass(index: number): string {
 export function initScrollAnimations(
   container: Element | Document = document,
 ): () => void {
-  const animatedElements = container.querySelectorAll('[data-animate]');
+  // Find the scroll container for proper intersection observation
+  const scrollContainer =
+    container instanceof Document
+      ? container.querySelector('main.scroll-snap-y.h-screen')
+      : null;
 
-  const observer = createScrollObserver(entry => {
-    entry.target.classList.add('visible');
-  });
+  const observer = createScrollObserver(
+    entry => {
+      entry.target.classList.add('visible');
+    },
+    {
+      // Use the scroll container as root if it exists
+      ...(scrollContainer ? {root: scrollContainer as Element} : {}),
+    },
+  );
 
-  animatedElements.forEach(element => {
+  // Observe elements with data-animate attribute
+  const dataAnimatedElements = container.querySelectorAll('[data-animate]');
+  dataAnimatedElements.forEach(element => {
     const animationType = element.getAttribute('data-animate') as AnimationType;
     const staggerIndex = element.getAttribute('data-stagger');
 
@@ -156,6 +170,25 @@ export function initScrollAnimations(
     }
 
     observer.observe(element);
+  });
+
+  // Also observe elements that already have animation classes applied directly
+  const animationClasses = [
+    'animate-fade-up',
+    'animate-fade-in',
+    'animate-scale-up',
+    'animate-slide-left',
+    'animate-slide-right',
+  ];
+
+  animationClasses.forEach(animClass => {
+    const elements = container.querySelectorAll(`.${animClass}:not(.visible)`);
+    elements.forEach(element => {
+      // Only observe if not already observed via data-animate
+      if (!element.hasAttribute('data-animate')) {
+        observer.observe(element);
+      }
+    });
   });
 
   return () => observer.disconnect();
