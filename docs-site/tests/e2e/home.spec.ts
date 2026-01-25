@@ -456,7 +456,10 @@ test.describe('Responsive Design - Phase 6.4', () => {
 test.describe('Visual Regression - Phase 6.5', () => {
   // Skip visual regression tests in CI as they require baseline screenshots
   // that need to be generated and committed locally first
-  test.skip(!!process.env.CI, 'Visual regression tests require local baselines');
+  test.skip(
+    !!process.env.CI,
+    'Visual regression tests require local baselines',
+  );
 
   test('hero section visual snapshot', async ({page}) => {
     await page.setViewportSize({width: 1280, height: 800});
