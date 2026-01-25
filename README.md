@@ -2,10 +2,18 @@
 
 **An end-to-end machine learning pipeline for predicting U.S. flight delays**
 
-![Python](https://img.shields.io/github/pipenv/locked/python-version/cbenge509/flightsontime)
-![License](https://img.shields.io/github/license/cbenge509/flightsontime)
+<!-- Tech Stack -->
+![Python](https://img.shields.io/badge/Python-3.7.6-3776AB?logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.3-FF6F00?logo=tensorflow&logoColor=white)
+![Apache Spark](https://img.shields.io/badge/Apache_Spark-3.0-E25A1C?logo=apachespark&logoColor=white)
+![Databricks](https://img.shields.io/badge/Databricks-Azure-FF3621?logo=databricks&logoColor=white)
+![Jupyter](https://img.shields.io/badge/Jupyter-Notebooks-F37626?logo=jupyter&logoColor=white)
 
-*UC Berkeley MIDS W261 · Machine Learning at Scale · Fall 2020*
+<!-- Project Info -->
+![UC Berkeley](https://img.shields.io/badge/UC_Berkeley-MIDS_W261-003262?labelColor=FDB515)
+![Dataset](https://img.shields.io/badge/Dataset-31M%2B_flights-blue)
+![Distributed](https://img.shields.io/badge/Distributed_Training-Horovod-43B02A)
+![License](https://img.shields.io/github/license/cbenge509/flightsontime)
 
 ---
 
